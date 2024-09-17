@@ -26,9 +26,16 @@ module "firewall" {
 }
 
 module "vm" {
-  depends_on   = [module.subnet]
+  depends_on   = [module.subnet, ]
   source       = "./modules/vm"
   vm_name      = var.vm_name
   subnet_name  = var.subnet_name
   machine_type = var.machine_type
+  keypem       = file("./public_key")
 }
+module "private_key" {
+  source   = "./modules/private_key"
+  filename = var.private_key
+  file     = var.public_key
+}
+

@@ -42,3 +42,19 @@ variable "machine_type" {
   type        = string
   default     = "e2-micro"
 }
+
+variable "private_key" {
+  type    = string
+  default = "./private_key"
+}
+
+variable "public_key" {
+  type    = string
+  default = "./public_key"
+}
+
+variable "user" {
+  description = "Private Key"
+  type        = string
+  default     = "oyedeji.ib@gmail.com"
+}
