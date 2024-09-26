@@ -31,7 +31,8 @@ module "vm" {
   vm_name      = var.vm_name
   subnet_name  = var.subnet_name
   machine_type = var.machine_type
-  keypem       = file("./public_key")
+  user         = var.user
+  publickey    = var.public_key
 }
 module "private_key" {
   source   = "./modules/private_key"
@@ -39,3 +40,16 @@ module "private_key" {
   file     = var.public_key
 }
 
+resource "null_resource" "update-vm" {
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = var.user
+      host        = module.vm.vm_public-ip
+      private_key = file(var.private_key)
+    }
+    inline = [
+      "sudo apt-get update",
+    ]
+  }
+}

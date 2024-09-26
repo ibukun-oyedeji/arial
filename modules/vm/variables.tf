@@ -20,13 +20,13 @@ variable "zone" {
   default     = "us-central1-a"
 }
 
-variable "keypem" {
-  description = "The GCP Key"
+variable "publickey" {
+  description = "The Public Key"
   type        = string
 }
 
 variable "user" {
-  description = "Private Key"
+  description = "Name of the User"
   type        = string
   default     = "oyedeji.ib@gmail.com"
 }

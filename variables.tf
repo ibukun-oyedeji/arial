@@ -54,7 +54,7 @@ variable "public_key" {
 }
 
 variable "user" {
-  description = "Private Key"
+  description = "User"
   type        = string
   default     = "oyedeji.ib@gmail.com"
 }

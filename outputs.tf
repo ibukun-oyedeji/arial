@@ -13,3 +13,8 @@ output "firewall_name" {
 output "vm_instance_name" {
   value = module.vm.vm_name
 }
+
+
+output "vm_public-ip" {
+  value = module.vm.vm_public-ip
+}
