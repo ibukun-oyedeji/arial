@@ -32,16 +32,16 @@ variable "firewall_name" {
   type = string
 }
 
-variable "vm_name" {
-  description = "Name of VM"
-  type        = string
-}
+# variable "vm_name" {
+#   description = "Name of VM"
+#   type        = string
+# }
 
-variable "machine_type" {
-  description = "Machine Type"
-  type        = string
-  default     = "e2-micro"
-}
+# variable "machine_type" {
+#   description = "Machine Type"
+#   type        = string
+#   default     = "e2-micro"
+# }
 
 variable "private_key" {
   type    = string
@@ -57,4 +57,22 @@ variable "user" {
   description = "User"
   type        = string
   default     = "oyedeji.ib@gmail.com"
+}
+
+variable "service_accounts" {
+  description = "List of service accounts with account_id and display_name"
+  type = map(object({
+    account_id   = string
+    display_name = string
+    roles        = list(string)
+  }))
+
+}
+
+variable "vm_instances" {
+  description = "List of VM configurations"
+  type = list(object({
+    name        = string
+    machine_type = string
+  }))
 }
