@@ -64,6 +64,7 @@ module "IAM" {
 # }
 
 resource "null_resource" "update-vm" {
+  depends_on  = [module.vm]
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
@@ -73,11 +74,19 @@ resource "null_resource" "update-vm" {
     }
     inline = [
       "sudo apt-get update",
-      "sudo apt-get install -y ansible",  # Install Ansible
+      "sudo apt-get install -y ansible",
+      "sudo apt-get install openjdk-17-jdk -y",
+#      "sudo apt-get install openjdk-11-jdk",
+      "sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key",
+      "echo 'deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]' https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null",
+      "sudo apt-get update",
+      "sudo apt-get install jenkins -y",
+      "sudo systemctl enable jenkins",
+      "sudo systemctl start jenkins",  # Install Ansible
     ]
   }
   provisioner "local-exec" {
-    command = "scp -i ${var.private_key} -o StrictHostKeyChecking=no ${var.private_key} ${var.user}@${module.vm["master"].vm_public-ip}:~"
+    command = "scp -r -i ${var.private_key} -o StrictHostKeyChecking=no ${var.private_key} ./ansible.tar ${var.user}@${module.vm["master"].vm_public-ip}:~"
   }
 
 }
